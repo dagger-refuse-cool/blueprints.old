@@ -1,0 +1,6 @@
+bases:
+- git::https://github.com/redhat-edge-computing/blueprint-library.git//common/
+- git::https://github.com/redhat-edge-computing/blueprint-library.git//manufacturing-edge-ai-ml/
+
+patches:
+- user.patch.yaml
