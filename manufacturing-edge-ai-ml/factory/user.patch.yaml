@@ -1,0 +1,51 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: github
+type: Opaque
+data:
+  token: echo "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" | base64
+  user: ipbabble
+---
+# Format of .dockerconfigjson is the base64 encode "auths" dictionary
+#
+#{
+#  "auths": {
+#    "quay.io": {
+#      "auth": "SU1BR0VfUkVHSVNUUllfVVNFUjpJTUFHRV9SRUdJU1RSWV9QQVNTV09SRA==",
+#      "email": ""
+#    }
+#  }
+#}
+# auths["quay.io"]["auth"] is a base64 encoded string of IMAGE_REGISTRY_USER:IMAGE_REGISTRY_PASSWORD
+kind: List
+apiVersion: v1
+items:
+- kind: Secret
+  apiVersion: v1
+  metadata:
+    name: quay-build-secret
+  type: kubernetes.io/dockerconfigjson
+  data:
+    .dockerconfigjson: SYN4KQOJ777DV48FCCISDCBN80WC59Y95DC8TEDH11AUXYNIDP9X2LHFAECN35K5==
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: environment
+data:
+#  GIT_EMAIL: "whenry@redhat.com"
+#  GIT_USERNAME: "ipbabble"
+  GIT_ORG: dagger-refuse-cool
+  QUAY_ORG: daggerrefusecool
+  GIT_DEV_REPO_URL: https://github.com/$(GIT_ORG)/manuela-dev.git
+  GIT_OPS_REPO_TEST_URL: https://github.com/$(GIT_ORG)/manuela-gitops.git
+  GIT_OPS_REPO_PROD_URL: https://github.com/$(GIT_ORG)/manuela-gitops.git
+  IOT_CONSUMER_REMOTE_IMAGE: quay.io/$(QUAY_ORG)/iot-consumer
+  IOT_FRONTEND_REMOTE_IMAGE: quay.io/$(QUAY_ORG)/iot-frontend
+  IOT_SWSENSOR_REMOTE_IMAGE: quay.io/$(QUAY_ORG)/iot-software-sensor
+  IOT_ANOMALY_REMOTE_IMAGE: quay.io/$(QUAY_ORG)/iot-anomaly-detection
+  BUMPVERSION_REMOTE_IMAGE: quay.io/manuela/bumpversion
+  HTTPD_IONIC_REMOTE_IMAGE: quay.io/manuela/httpd-ionic
+  PUSHPROX_REMOTE_IMAGE: quay.io/manuela/pushprox
+
