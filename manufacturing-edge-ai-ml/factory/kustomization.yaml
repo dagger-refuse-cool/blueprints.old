@@ -1,19 +1,8 @@
 bases:
   - ../../../blueprint-elements-library/manufacturing-edge-ai-ml/factory
 
-#patches:
-#- user.patch.yaml
-
-resources:
-- acm-registration/klusterlet-crd.yaml
-- acm-registration/klusterlet-role.yaml
-- acm-registration/cluster-role.yaml
-- acm-registration/role-bindings.yaml
-- acm-registration/namespace.yaml
-- acm-registration/hub-config.yaml
-- acm-registration/service-account.yaml
-- acm-registration/deployment.yaml
-- acm-registration/klusterlet.yaml
+patches:
+- user.patch.yaml
 
 #transformers:
 #  - site-config.yaml
