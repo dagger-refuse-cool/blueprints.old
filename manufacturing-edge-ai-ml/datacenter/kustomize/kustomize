@@ -1,7 +1,21 @@
 #!/bin/bash
 
-BASE=`basename $0`
+# The $BASE variable is used to place the file in the proper directory. 
+# It gives you the name of the script without the directory.
+BASE=$(basename $0)
 
+# DIRNAME is the directory where the script is located.
+DIRNAME=$(dirname $0)
+
+# Here we create the helm.patch.yaml file which will contain the patches
+# that will be used by kustomize.
+echo -n "Creating helm.patch.yaml file from STDIN ..."
 cat <&0 > "$BASE/helm.patch.yaml"
+echo "done."
 
-kubectl kustomize "$BASE" && rm "$BASE/helm.patch.yaml"
+# In this command we use kubectl to generate the object definitions.
+# We can also add a pipe to execute "kubeclt apply -f -" and take the STDOUT
+# from the "kubectl kustomize" command. For now we are just sending the output
+# of kustomize to STDOUT.
+# TODO: Revisit above
+kubectl kustomize "$BASE" # && rm "$BASE/helm.patch.yaml"

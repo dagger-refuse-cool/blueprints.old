@@ -1,3 +1,8 @@
+{{- define "manuela.labels" }}
+  labels:
+    generator: helm
+    date: {{ now | htmlDate }}
+{{- end }}
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:

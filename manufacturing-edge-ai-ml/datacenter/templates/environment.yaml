@@ -1,10 +1,15 @@
+{{- define "manuela.labels" }}
+  labels:
+    generator: helm
+    date: {{ now | htmlDate }}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: environment
 data:
-  GIT_EMAIL: "abeekhof@redhat.com"
-  GIT_USERNAME: "beekhof"
+  GIT_EMAIL: {{ .Values.git.email }} 
+  GIT_USERNAME: {{ .Values.git.username }}
   GIT_PROVIDER: {{ .Values.git.provider }}
   GIT_ACCOUNT:  {{ .Values.git.account }}
   IMAGE_PROVIDER: {{ .Values.quay.provider }}
