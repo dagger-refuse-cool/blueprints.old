@@ -8,5 +8,5 @@
    `helm template manuela . --post-renderer kustomize/kustomize --debug`
 4. Apply it to your cluster
    `oc login`
-   `helm template manuela . --post-renderer kustomize/kustomize --debug`
+   `helm template manuela . --post-renderer kustomize/kustomize --debug | oc apply -f -`
 5. Work-around... repeat the previous step until there are no error
