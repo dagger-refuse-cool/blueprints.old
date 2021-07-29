@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: factorydatacenter
+  namespace: argocd
+spec:
+  source:
+    repoURL: https://github.com/ipbabble/manuela-gitops.git
+    path: deployment/staging-gcp-factorydatacenter
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linedataserver
+  namespace: argocd
+spec:
+  source:
+    repoURL: https://github.com/ipbabble/manuela-gitops.git
+    path: deployment/staging-gcp-linedataserver
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: manuela-mcs-gitops-channel-sensores
+  namespace: manuela-sensors-mcs
+spec:
+  pathname: https://github.com/ipbabble/manuela-gitops.git
+---
+apiVersion: operator.open-cluster-management.io/v1
+kind: Klusterlet
+metadata:
+  name: klusterlet
+spec:
+  clusterName: wh-factory

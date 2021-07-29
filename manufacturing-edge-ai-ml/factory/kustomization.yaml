@@ -1,0 +1,8 @@
+bases:
+  - ../../../blueprint-elements-library/manufacturing-edge-ai-ml/factory
+
+patches:
+- user.patch.yaml
+
+#transformers:
+#  - site-config.yaml
