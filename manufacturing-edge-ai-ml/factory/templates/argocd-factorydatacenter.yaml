@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: centraldatacenter
+  name: factorydatacenter
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://{{ .Values.git.provider }}/{{ .Values.git.account }}/manuela-gitops.git
+    repoURL: https://{{ .Values.git.provider }}/{{ .Values.git.account }}/blueprint-elements-library.git
     targetRevision: HEAD
-    path: deployment/hub-centraldatacenter
+    path: manufacturing-edge-ai-ml/factory/sites/{{ .Values.site.name }}
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
