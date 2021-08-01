@@ -1,0 +1,103 @@
+---
+# Source: manuela/templates/github-secret.yaml
+kind: Secret
+apiVersion: v1
+metadata:
+  name: github
+type: Opaque
+data:
+  # Go to: https://github.com/settings/tokens
+  # Then: echo -n 'your string value' | base64
+  token: Z2hwX3N3djRlRUN5b1pscThJQk5MN3VoYW5GcGRBbDlNVDFVOHB0UAo=
+  user: aXBiYWJibGUK
+---
+# Source: manuela/templates/quay-secret.yaml
+kind: Secret
+apiVersion: v1
+metadata:
+  name: quay-build-secret
+type: kubernetes.io/dockerconfigjson
+data:
+  # Quay -> Robot Accounts -> Kubernetes Secret -> View
+  # .dockerconfigjson is base64 encoded, conforming to...
+  #{
+  #  "auths": {
+  #    "quay.io": {
+  #      "auth": "",
+  #      "email": ""
+  #    }
+  #  }
+  #}
+  # auths["quay.io"]["auth"] is a base64 encoded string of IMAGE_REGISTRY_USER:IMAGE_REGISTRY_PASSWORD
+  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJxdWF5LmlvIjogewoJCQkiYXV0aCI6ICJhWEJpWVdKaWJHVTZVMnd4WnpBak5qYz0iCgkJfQoJfQp9
+---
+# Source: manuela/templates/environment.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: environment
+data:
+  GIT_EMAIL: "abeekhof@redhat.com"
+  GIT_USERNAME: "beekhof"
+  GIT_PROVIDER: github.com
+  GIT_ACCOUNT:  dagger-refuse-cool
+  IMAGE_PROVIDER: quay.io
+  IMAGE_ACCOUNT: dagger-refuse-cool
+  IOT_CONSUMER_IMAGE: iot-consumer
+  IOT_FRONTEND_IMAGE: iot-frontend
+  IOT_SWSENSOR_IMAGE: iot-software-sensor
+  IOT_ANOMALY_IMAGE:  iot-anomaly-detection
+  GIT_DEV_REPO_URL: https://github.com/dagger-refuse-cool/manuela-dev.git
+  GIT_OPS_REPO_TEST_URL: https://github.com/dagger-refuse-cool/manuela-gitops.git
+  GIT_OPS_REPO_PROD_URL: https://github.com/dagger-refuse-cool/manuela-gitops.git
+---
+# Source: manuela/templates/argocd-hub-centraldatacenter.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: centraldatacenter
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dagger-refuse-cool/manuela-gitops.git
+    targetRevision: HEAD
+    path: deployment/hub-centraldatacenter
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas
+  - group: route.openshift.io
+    kind: Route
+    jsonPointers:
+    - /status
+---
+# Source: manuela/templates/datacenter-channel.yaml
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: argocd-operator-channel
+  namespace: argocd-operator-gitops
+spec:
+  type: Git
+  pathname: https://github.com/dagger-refuse-cool/blueprint-management-hub.git
+---
+# Source: manuela/templates/factory-channel.yaml
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: acm-channel-blueprint-industrial-edge
+  namespace: acm-blueprint-industrial-edge-gitops
+spec:
+  pathname: https://github.com/dagger-refuse-cool/blueprint-industrial-edge.git
+  type: Git
