@@ -20,3 +20,7 @@ quay:
 
   # Quay -> Robot Accounts -> Kubernetes Secret -> View
   authToken: ewoJImF1dGhzIjogewoJCSJxdWF5LmlvIjogewoJCQkiYXV0aCI6ICJhWEJpWVdKaWJHVTZVMnd4WnpBak5qYz0iCgkJfQoJfQp9
+
+site:
+  name: staging
+  clustername: wh-factory-org

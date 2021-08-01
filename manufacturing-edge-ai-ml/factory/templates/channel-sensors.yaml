@@ -1,0 +1,8 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: manuela-mcs-gitops-channel-sensors
+  namespace: manuela-sensors-mcs
+spec:
+  pathname: https://{{ .Values.git.provider }}/{{ .Values.git.account }}/blueprint-elements-library.git
+  type: Git
