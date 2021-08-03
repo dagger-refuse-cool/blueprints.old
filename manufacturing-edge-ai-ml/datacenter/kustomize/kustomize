@@ -9,9 +9,7 @@ DIRNAME=$(dirname $0)
 
 # Here we create the helm.patch.yaml file which will contain the patches
 # that will be used by kustomize.
-echo -n "Creating helm.patch.yaml file from STDIN ..."
 cat <&0 > "$BASE/helm.patch.yaml"
-echo "done."
 
 # In this command we use kubectl to generate the object definitions.
 # We can also add a pipe to execute "kubeclt apply -f -" and take the STDOUT
