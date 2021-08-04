@@ -1,12 +1,13 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: seldon-operator
+  name: seldon-operator-certified
   namespace: openshift-operators
 spec:
   channel: stable
-  installPlanApproval: Automatic
-  name: seldon-operator
+  name: seldon-operator-certified
+  installPlanApproval: Manual
   source: certified-operators
   sourceNamespace: openshift-marketplace
   startingCSV: seldon-operator.v1.7.0
+
