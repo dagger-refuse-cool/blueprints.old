@@ -1,7 +1,9 @@
 bases:
   #- github.com/dagger-refuse-cool/blueprint-elements-library/manufacturing-edge-ai-ml/datacenter/?ref=<YOUR BRANCH>
-- github.com/dagger-refuse-cool/blueprint-elements-library/manufacturing-edge-ai-ml/datacenter
-  #-  ../../../../blueprint-elements-library/manufacturing-edge-ai-ml/datacenter
+- github.com/claudiol/blueprint-elements-library/manufacturing-edge-ai-ml/datacenter
+
+resources:
+  - seldon-subscription.yaml
 
 patches:
-- helm.patch.yaml
+  - helm.patch.yaml

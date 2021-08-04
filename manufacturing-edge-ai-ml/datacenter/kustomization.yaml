@@ -1,6 +1,5 @@
 bases:
-- github.com/dagger-refuse-cool/blueprint-elements-library/manufacturing-edge-ai-ml/datacenter
-  #- ../../../blueprint-elements-library/manufacturing-edge-ai-ml/datacenter
+- github.com/claudiol/blueprint-elements-library/manufacturing-edge-ai-ml/datacenter
 
 patches:
 - user.patch.yaml
